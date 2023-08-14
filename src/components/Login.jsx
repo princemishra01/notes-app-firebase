@@ -4,14 +4,14 @@ import { app } from '../backend/firebase';
 import { Link , useNavigate} from 'react-router-dom';
 // import { useAuthState } from "react-firebase-hooks/auth";
 
-const loggedIn = window.localStorage.getItem("isUserLoggedIn");
 
 
 const Login = () => {
     
     const navigate = useNavigate();
-
+    
     useEffect(() => {
+        const loggedIn = window.localStorage.getItem("isUserLoggedIn");
         if(loggedIn){
             navigate('/');
         }

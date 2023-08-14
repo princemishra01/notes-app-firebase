@@ -4,12 +4,12 @@ import { app } from '../backend/firebase';
 import { Link , useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-const loggedIn = window.localStorage.getItem("isUserLoggedIn");
 
 const SignUp = () => {
   const navigate = useNavigate();
-
-    useEffect(() => {
+  
+  useEffect(() => {
+      const loggedIn = window.localStorage.getItem("isUserLoggedIn");
       if(loggedIn){
           navigate('/');
       }

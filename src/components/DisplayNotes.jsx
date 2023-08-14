@@ -9,17 +9,17 @@ import { getFirestore , collection , addDoc , query , where , getDocs , deleteDo
 
 
 const firestore = getFirestore(app);
-const x = window.localStorage.getItem("isUserLoggedIn");
 
 const DisplayNotes = () => {
   
-    const [loggedIn,setLoggedIn] = useState(x);
-    const [user] = useAuthState(auth);
-    // const user = auth.currentUser;
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
+  const x = window.localStorage.getItem("isUserLoggedIn");
+  const [loggedIn,setLoggedIn] = useState(x);
+  const [user] = useAuthState(auth);
+  // const user = auth.currentUser;
+  
+  const navigate = useNavigate();
+  
+  useEffect(() => {
       if(loggedIn === false) {
         // console.log('what');
         navigate('/login');
