@@ -10,29 +10,33 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-// const loggedIn = window.localStorage.getItem("isUserLoggedIn");
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Protected Component={DisplayNotes}/>,
-    },
-    {
-      path: "SignUp",
-      element: <SignUp />,
-    },
-    {
-      path: "login",
-      element: <Login />,
-    }
-  ]);
+  const loggedIn = window.localStorage.getItem("isUserLoggedIn");
+  
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/",
+  //     element: loggedIn ? <DisplayNotes /> : <Login />,
+  //     // element: <Protected Component={DisplayNotes}/>,
+  //   },
+  //   {
+  //     path: "SignUp",
+  //     // element: <SignUp />,
+  //     element: loggedIn ? <DisplayNotes /> : <SignUp />,
+  //   },
+  //   {
+  //     path: "login",
+  //     // element: <Login />,
+  //     element: loggedIn ? <DisplayNotes /> : <Login />,
+  //   }
+  // ]);
   
 
   return (
     <div className="app">
-      <RouterProvider router = {router} />
+      {/* <RouterProvider router = {router} /> */}
+      <DisplayNotes />
     </div>
   );
 }

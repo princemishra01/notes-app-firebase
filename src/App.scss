@@ -169,6 +169,12 @@ $app-color-accent: #f39c12;
   }
 }
 
+span {
+  cursor: pointer;
+  color: blue($color: #006aff);
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .app {
     padding: 5vh 5vw;
@@ -184,6 +190,11 @@ $app-color-accent: #f39c12;
       }
     }
     .log-in {
+      input {
+        width: 80%;
+      }
+    }
+    .sign-up {
       input {
         width: 80%;
       }

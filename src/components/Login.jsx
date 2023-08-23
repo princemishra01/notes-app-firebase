@@ -1,22 +1,9 @@
 import React, { useEffect } from 'react'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from '../backend/firebase';
-import { Link , useNavigate} from 'react-router-dom';
-// import { useAuthState } from "react-firebase-hooks/auth";
 
-
-
-const Login = () => {
+const Login = ({setLoggedIn , setShowSignUp }) => {
     
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-        const loggedIn = window.localStorage.getItem("isUserLoggedIn");
-        if(loggedIn){
-            navigate('/');
-        }
-    },[])
-
     const handleLogin = () => {
         const user = document.querySelector("input[type='email']").value;
         const password = document.querySelector("input[type='password']").value;
@@ -24,15 +11,19 @@ const Login = () => {
         const auth = getAuth(app);
         signInWithEmailAndPassword(auth, user, password)
             .then((userCredential) => {
-                const user = userCredential.user;
-                // console.log(user);
+                // const user = userCredential.user;
                 window.localStorage.setItem("isUserLoggedIn", true);
-                navigate("/");
+                setLoggedIn(true);
+                setShowSignUp(false);
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorMessage, errorCode);
             });
+    }
+
+    const changeFnc = e => {
+        setShowSignUp(true);
     }
 
     return (
@@ -41,7 +32,7 @@ const Login = () => {
             <input type="email" placeholder='Enter Email'/>
             <input type="password" placeholder='Enter Password'/>
             <button onClick={handleLogin}>Login</button>
-            <p>Dont have an account <Link to = '/signup'>  Sign Up </Link></p>
+            <p>Dont have an account <span onClick={changeFnc}>Sign Up</span> </p>
         </div>
     )
 }

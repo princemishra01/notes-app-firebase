@@ -1,31 +1,23 @@
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import {v4 as uuid} from 'uuid';
 import React from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate  } from 'react-router-dom';
 import { auth , app } from '../backend/firebase';
 import {  signOut } from "firebase/auth";
 import { getFirestore , collection , addDoc , query , where , getDocs , deleteDoc , doc } from 'firebase/firestore';
+// import { faCommentDollar } from '@fortawesome/free-solid-svg-icons';
+import Login from './Login';
+import SignUp from './SignUp';
 
 
 const firestore = getFirestore(app);
+const x = window.localStorage.getItem("isUserLoggedIn");
 
 const DisplayNotes = () => {
   
-  const x = window.localStorage.getItem("isUserLoggedIn");
-  const [loggedIn,setLoggedIn] = useState(x);
-  const [user] = useAuthState(auth);
-  // const user = auth.currentUser;
-  
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-      if(loggedIn === false) {
-        // console.log('what');
-        navigate('/login');
-      }
-    }, [loggedIn]);
-    
+    const [loggedIn,setLoggedIn] = useState(x);
+    const [showSignUp,setShowSignUp] = useState(false);
+    const [user] = useAuthState(auth);
     const getDocByQuery = async () => {
       // console.log(user);
       const q = query(collection(firestore , 'notes' ) , where('userId' , '==' , user.uid));
@@ -33,6 +25,7 @@ const DisplayNotes = () => {
       const newArrayOfNotes = snapshot.docs.map((doc) => doc.data());
       // snapshot.forEach(data => newArrayOfNotes.push(data.data()));
       setNoteArray(noteArray => newArrayOfNotes);
+
     }
 
     function checkCondition(getDocByQuery) {
@@ -54,7 +47,6 @@ const DisplayNotes = () => {
         signOut(auth).then(() => {
           window.localStorage.removeItem("isUserLoggedIn");
           setLoggedIn(false);
-          navigate('/Login');
         });
     }
 
@@ -114,6 +106,8 @@ const DisplayNotes = () => {
     }
 
     return (
+
+        loggedIn ? <>
         <div className="container">
         <div className="make-note">
           <div className = "top-title">
@@ -151,6 +145,9 @@ const DisplayNotes = () => {
 
         </div>
       </div>
+      </> 
+      : showSignUp ? <SignUp loggedIn = {loggedIn} setLoggedIn = {setLoggedIn} showSignUp = {showSignUp} setShowSignUp = {setShowSignUp}/> 
+      : <Login loggedIn = {loggedIn} setLoggedIn = {setLoggedIn}  showSignUp = {showSignUp} setShowSignUp = {setShowSignUp}/>
   )
 }
 
